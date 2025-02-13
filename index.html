@@ -4,23 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz do Amor</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             background-color: #9a5fba;
-            background-image: url('textura.png'); /* Caminho para sua textura */
-            background-size: cover; /* Ajusta a textura para cobrir toda a tela */
+            background-image: url('textura.png');
+            background-size: cover;
             background-position: center;
             font-family: Arial, sans-serif;
             text-align: center;
             color: white;
-        }
-        header {
-            padding: 20px;
-        }
-        h1 {
-            font-size: 2.5em;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
         }
         .container {
             background: rgba(255, 255, 255, 0.2);
@@ -31,7 +23,6 @@
             width: 60%;
         }
         .question {
-            margin-top: 20px;
             display: none;
         }
         .question.active {
@@ -62,152 +53,146 @@
             pointer-events: none;
             opacity: 0.6;
         }
-        #score {
+        #startScreen, #playButton {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
             font-size: 1.2em;
-            margin-top: 20px;
+            border-radius: 10px;
+            cursor: pointer;
         }
-        #finalMessage {
-            font-size: 1.5em;
-            margin-top: 20px;
+        #checkYes, #checkYes2, #playButton {
+            background: green;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 5px;
         }
-        #emoji {
-            font-size: 2em;
+        #checkNo, #checkNo2 {
+            background: red;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 5px;
         }
-        #introGif, #finalGif {
-            width: 100%;
-            max-width: 400px;
-            margin-top: 20px;
+        #playButton {
+            display: none;
         }
-        /* Estilo para o botão de música */
+        #result {
+            display: none;
+            font-size: 1.8em;
+            font-weight: bold;
+            padding: 20px;
+            border-radius: 15px;
+        }
+        /* Botão de Música */
         #musicButton {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: #ff69b4;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 10px 20px;
-            font-size: 1em;
+            background: pink;
+            color: black;
+            padding: 10px;
+            border-radius: 10px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
-        #musicButton:hover {
-            background-color: #ff4f91;
-        }
-        #musicButton:focus {
-            outline: none;
-        }
-        /* Estilo para o controle de volume */
+        /* Controle de Volume */
         #volumeControl {
             position: fixed;
             bottom: 70px;
             right: 20px;
-            width: 150px;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 5px;
-            padding: 5px;
+            width: 100px;
+            display: none;
         }
-        #volumeLabel {
-            color: white;
-            font-size: 0.9em;
-            margin-bottom: 5px;
+        /* GIFs */
+        .gif {
+            width: 100px;
+            height: auto;
+            margin: 10px;
         }
     </style>
 </head>
 <body>
-    <!-- Música de fundo (inicialmente oculta) -->
-    <audio id="backgroundMusic" loop>
-        <source src="musica_fundo.mp3" type="audio/mp3">
-        <source src="musica_fundo.ogg" type="audio/ogg">
-        Seu navegador não suporta a reprodução de áudio.
-    </audio>
 
-    <header>
-        <h1>💖 Quiz do Amor 💖</h1>
-        <img id="introGif" src="gif_intro.gif" alt="Intro GIF">
-    </header>
-    <main>
+    <h1>💖 Quiz do Amor 💖</h1>
+
+    <!-- GIF no topo -->
+    <img src="amor1.gif" alt="Coração fofo" class="gif">
+
+    <!-- Introdução -->
+    <div id="startScreen">
+        <h2>VOCÊ AMA O VIN?</h2>
+        <button id="checkYes">✔️</button>
+        <button id="checkNo">❌</button>
+
+        <div id="secondQuestion" style="display: none;">
+            <h2>VOCÊ REALMENTE AMA O VIN???</h2>
+            <button id="checkYes2">✔️</button>
+            <button id="checkNo2">❌</button>
+        </div>
+
+        <button id="playButton">▶ Então vamos começar!</button>
+    </div>
+
+    <!-- Quiz -->
+    <main id="quiz" style="display: none;">
         <div class="container">
-            <p>Prepare-se para testar seus conhecimentos e ver se você realmente ama o Vin!</p>
-            <div id="question1" class="question active">
+            <p>Prepare-se para testar seus conhecimentos sobre o amor! Responda as perguntas abaixo.</p>
+
+            <div class="question active">
                 <h2>Qual foi a primeira coisa que assistimos juntos?</h2>
                 <button class="option" onclick="checkAnswer(this, true)">Brilho eterno de uma mente sem lembranças</button>
                 <button class="option" onclick="checkAnswer(this, false)">Round 6</button>
                 <button class="option" onclick="checkAnswer(this, false)">Eu quero comer seu pâncreas</button>
                 <button class="option" onclick="checkAnswer(this, false)">Wall-e</button>
             </div>
-            <div id="question2" class="question">
-                <h2>Quem disse "eu te amo" primeiro?</h2>
-                <button class="option" onclick="checkAnswer(this, false)">Yuyu nenem</button>
-                <button class="option" onclick="checkAnswer(this, true)">O vin porque ele ama mais</button>
-            </div>
-            <div id="question3" class="question">
-                <h2>Qual é a nossa música?</h2>
-                <button class="option" onclick="checkAnswer(this, false)">At the Risk of Feeling Dumb</button>
-                <button class="option" onclick="checkAnswer(this, false)">Lovely</button>
-                <button class="option" onclick="checkAnswer(this, false)">Truce</button>
-                <button class="option" onclick="checkAnswer(this, true)">Todas elas</button>
-            </div>
-            <div id="question4" class="question">
+
+            <div class="question">
                 <h2>Qual é minha comida favorita?</h2>
                 <button class="option" onclick="checkAnswer(this, false)">Strogonoff</button>
                 <button class="option" onclick="checkAnswer(this, false)">Pão de queijo</button>
                 <button class="option" onclick="checkAnswer(this, false)">Sushi</button>
                 <button class="option" onclick="checkAnswer(this, true)">Pizza</button>
             </div>
-            <div id="question5" class="question">
+
+            <div class="question">
                 <h2>O que eu mais gosto em você?</h2>
                 <button class="option" onclick="checkAnswer(this, false)">Seu cabelinho</button>
                 <button class="option" onclick="checkAnswer(this, true)">Tudo</button>
                 <button class="option" onclick="checkAnswer(this, false)">Seu carinho</button>
                 <button class="option" onclick="checkAnswer(this, false)">Sua companhia</button>
             </div>
-            <div id="question6" class="question">
-                <h2>Qual é minha estação do ano favorita?</h2>
-                <button class="option" onclick="checkAnswer(this, false)">Verão</button>
-                <button class="option" onclick="checkAnswer(this, false)">Primavera</button>
-                <button class="option" onclick="checkAnswer(this, false)">Outono</button>
-                <button class="option" onclick="checkAnswer(this, true)">Inverno</button>
-            </div>
-            <div id="score"></div>
-            <div id="finalMessage"></div>
-            <div id="emoji"></div>
-            <img id="finalGif" src="gif_final.gif" alt="Final GIF">
         </div>
     </main>
-    
-    <!-- Botão para iniciar a música -->
-    <button id="musicButton" onclick="toggleMusic()">Musiquinha Fofa de Fundo</button>
 
-    <!-- Controle de volume -->
-    <div id="volumeControl">
-        <label id="volumeLabel" for="volumeSlider">Volume</label>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
-    </div>
+    <div id="result"></div>
+
+    <!-- Botão de Música e Controle de Volume -->
+    <button id="musicButton">🎶 Musiquinha fofa de fundo</button>
+    <input type="range" id="volumeControl" min="0" max="1" step="0.1">
+
+    <audio id="backgroundMusic" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
-        let currentQuestion = 1;
-        let score = 0;
-        let musicPlaying = false;
+        let correctAnswers = 0;
+        let currentQuestionIndex = 0;
+        let questions = document.querySelectorAll(".question");
+        let totalQuestions = questions.length;
 
-        // Função para controlar a música
-        function toggleMusic() {
-            const music = document.getElementById('backgroundMusic');
-            if (!musicPlaying) {
-                music.play();
-                musicPlaying = true;
-            } else {
-                music.pause();
-                musicPlaying = false;
-            }
-        }
+        document.getElementById("checkYes").addEventListener("click", function() {
+            document.getElementById("secondQuestion").style.display = "block";
+        });
 
-        // Função para ajustar o volume
-        function setVolume(volume) {
-            const music = document.getElementById('backgroundMusic');
-            music.volume = volume;
-        }
+        document.getElementById("checkYes2").addEventListener("click", function() {
+            document.getElementById("playButton").style.display = "block";
+        });
+
+        document.getElementById("playButton").addEventListener("click", function() {
+            document.getElementById("startScreen").style.display = "none";
+            document.getElementById("quiz").style.display = "block";
+        });
 
         function checkAnswer(button, isCorrect) {
             let options = button.parentElement.querySelectorAll('.option');
@@ -215,39 +200,31 @@
 
             if (isCorrect) {
                 button.classList.add('correct');
-                score++;
+                correctAnswers++;
             } else {
                 button.classList.add('wrong');
             }
-
-            setTimeout(() => {
-                if (currentQuestion < 6) {
-                    document.getElementById(`question${currentQuestion}`).classList.remove('active');
-                    currentQuestion++;
-                    document.getElementById(`question${currentQuestion}`).classList.add('active');
-                } else {
-                    showFinalMessage();
-                }
-            }, 1000);
         }
 
-        function showFinalMessage() {
-            let finalMessage = '';
-            let emoji = '';
-            if (score === 6) {
-                finalMessage = 'Você realmente me ama';
-                emoji = '😘';
-            } else if (score >= 4) {
-                finalMessage = 'Você me ama só um pouquinho';
-                emoji = '😢';
+        // Música
+        let music = document.getElementById("backgroundMusic");
+        let musicButton = document.getElementById("musicButton");
+        let volumeControl = document.getElementById("volumeControl");
+
+        musicButton.addEventListener("click", function() {
+            if (music.paused) {
+                music.play();
+                volumeControl.style.display = "block";
             } else {
-                finalMessage = 'Você não me ama?';
-                emoji = '💔';
+                music.pause();
+                volumeControl.style.display = "none";
             }
+        });
 
-            document.getElementById('finalMessage').innerText = finalMessage;
-            document.getElementById('emoji').innerText = emoji;
-        }
+        volumeControl.addEventListener("input", function() {
+            music.volume = volumeControl.value;
+        });
     </script>
+
 </body>
 </html>
