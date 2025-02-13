@@ -153,19 +153,39 @@
         }
 
         /* Estilo para os botões do quiz (checkmarks) */
-        .option:hover {
-            background: #f0f0f0;
+        button {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            background: #fff;
+            color: #333;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .option:active {
+        button:hover {
+            background-color: #f0f0f0;
+        }
+
+        button:active {
             transform: scale(0.98);
+        }
+
+        button.correct {
+            background-color: green;
+            color: white;
+        }
+
+        button.wrong {
+            background-color: red;
+            color: white;
         }
 
         .correct, .wrong {
             cursor: not-allowed;
-            transition: transform 0.3s ease;
         }
-
     </style>
 </head>
 <body>
