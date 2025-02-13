@@ -29,6 +29,83 @@
             margin-top: 20px;
             width: 60%;
         }
+        .question {
+            display: none;
+        }
+        .question.active {
+            display: block;
+        }
+        .option {
+            display: block;
+            padding: 10px;
+            margin: 10px auto;
+            width: 60%;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        .option.correct {
+            background: green;
+            color: white;
+        }
+        .option.wrong {
+            background: red;
+            color: white;
+        }
+        .option.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        #startScreen {
+            transition: opacity 1s ease-in-out;
+        }
+        #playButton {
+            display: none;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: #32CD32;
+            color: white;
+            border: none;
+        }
+        #playButton:hover {
+            background-color: #228B22;
+        }
+        #result {
+            display: none;
+            font-size: 1.8em;
+            font-weight: bold;
+            padding: 20px;
+            border-radius: 15px;
+        }
+        #musicButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: pink;
+            color: black;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        #volumeControl {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            width: 100px;
+            display: none;
+        }
+        .gif {
+            width: 100px;
+            height: auto;
+            margin: 10px;
+        }
 
         /* Estilos para o carrossel */
         .carousel {
@@ -40,7 +117,6 @@
             width: 80%;
             max-width: 600px;
             margin: 0 auto;
-            overflow: hidden;
         }
 
         .carousel-images {
@@ -54,6 +130,12 @@
             border-radius: 10px;
             display: block;
             margin: 0 auto;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .carousel img.active {
+            opacity: 1;
         }
 
         .carousel-button {
