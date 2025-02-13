@@ -70,6 +70,12 @@
             font-size: 1.2em;
             border-radius: 10px;
             cursor: pointer;
+            background-color: #32CD32;
+            color: white;
+            border: none;
+        }
+        #playButton:hover {
+            background-color: #228B22;
         }
         #result {
             display: none;
@@ -244,6 +250,7 @@
         document.getElementById("playButton").addEventListener("click", function() {
             fadeOut(document.getElementById("startScreen"));
             fadeIn(document.getElementById("quiz"));
+            document.getElementById("backgroundMusic").play();  // Corrigido para tocar a música
         });
 
         function checkAnswer(button, isCorrect) {
