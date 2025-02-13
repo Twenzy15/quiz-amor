@@ -14,6 +14,13 @@
             text-align: center;
             color: white;
         }
+        .fade {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .fade.show {
+            opacity: 1;
+        }
         .container {
             background: rgba(255, 255, 255, 0.2);
             padding: 20px;
@@ -53,13 +60,8 @@
             pointer-events: none;
             opacity: 0.6;
         }
-        #startScreen, #playButton {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            border-radius: 10px;
-            cursor: pointer;
+        #startScreen {
+            transition: opacity 1s ease-in-out;
         }
         #checkYes, #checkYes2, #playButton {
             background: green;
@@ -77,6 +79,11 @@
         }
         #playButton {
             display: none;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
         }
         #result {
             display: none;
@@ -120,22 +127,22 @@
     <img src="amor1.gif" alt="Coração fofo" class="gif">
 
     <!-- Introdução -->
-    <div id="startScreen">
+    <div id="startScreen" class="fade show">
         <h2>VOCÊ AMA O VIN?</h2>
         <button id="checkYes">✔️</button>
         <button id="checkNo">❌</button>
 
-        <div id="secondQuestion" style="display: none;">
+        <div id="secondQuestion" class="fade" style="display: none;">
             <h2>VOCÊ REALMENTE AMA O VIN???</h2>
             <button id="checkYes2">✔️</button>
             <button id="checkNo2">❌</button>
         </div>
 
-        <button id="playButton">▶ Então vamos começar!</button>
+        <button id="playButton" class="fade">▶ Então vamos começar!</button>
     </div>
 
     <!-- Quiz -->
-    <main id="quiz" style="display: none;">
+    <main id="quiz" class="fade" style="display: none;">
         <div class="container">
             <p>Prepare-se para testar seus conhecimentos sobre o amor! Responda as perguntas abaixo.</p>
 
@@ -165,7 +172,7 @@
         </div>
     </main>
 
-    <div id="result"></div>
+    <div id="result" class="fade"></div>
 
     <!-- Botão de Música e Controle de Volume -->
     <button id="musicButton">🎶 Musiquinha fofa de fundo</button>
@@ -181,17 +188,27 @@
         let questions = document.querySelectorAll(".question");
         let totalQuestions = questions.length;
 
+        function fadeIn(element) {
+            element.style.display = "block";
+            setTimeout(() => element.classList.add("show"), 50);
+        }
+
+        function fadeOut(element) {
+            element.classList.remove("show");
+            setTimeout(() => element.style.display = "none", 1000);
+        }
+
         document.getElementById("checkYes").addEventListener("click", function() {
-            document.getElementById("secondQuestion").style.display = "block";
+            fadeIn(document.getElementById("secondQuestion"));
         });
 
         document.getElementById("checkYes2").addEventListener("click", function() {
-            document.getElementById("playButton").style.display = "block";
+            fadeIn(document.getElementById("playButton"));
         });
 
         document.getElementById("playButton").addEventListener("click", function() {
-            document.getElementById("startScreen").style.display = "none";
-            document.getElementById("quiz").style.display = "block";
+            fadeOut(document.getElementById("startScreen"));
+            fadeIn(document.getElementById("quiz"));
         });
 
         function checkAnswer(button, isCorrect) {
