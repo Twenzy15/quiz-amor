@@ -110,9 +110,13 @@
         /* Estilos para o carrossel */
         .carousel {
             display: flex;
-            overflow: hidden;
             justify-content: center;
+            align-items: center;
             margin-top: 20px;
+            position: relative;
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .carousel-images {
@@ -121,43 +125,29 @@
         }
 
         .carousel img {
-            width: 200px;
+            width: 500px; /* Ajuste para aumentar o tamanho da imagem */
             height: auto;
-            margin: 0 10px;
             border-radius: 10px;
         }
 
-        /* Estilos para os checkmarks antes do quiz */
-        #checkYes, #checkNo, #checkYes2, #checkNo2 {
-            padding: 15px;
-            margin: 10px;
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
             font-size: 2em;
-            background-color: transparent;
-            border: 2px solid white;
-            border-radius: 50%;
             color: white;
+            background: transparent;
+            border: none;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            z-index: 10;
         }
 
-        #checkYes:hover, #checkNo:hover, #checkYes2:hover, #checkNo2:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+        .carousel-button.left {
+            left: 0;
         }
 
-        #checkYes {
-            background-color: green;
-        }
-
-        #checkNo {
-            background-color: red;
-        }
-
-        #checkYes2 {
-            background-color: green;
-        }
-
-        #checkNo2 {
-            background-color: red;
+        .carousel-button.right {
+            right: 0;
         }
     </style>
 </head>
@@ -239,6 +229,7 @@
     <div id="carousel" class="fade" style="display: none;">
         <h2>Meus parabens aqui está a sua recompensa</h2>
         <div class="carousel">
+            <button class="carousel-button left" onclick="moveCarousel(-1)">❮</button>
             <div class="carousel-images" id="carouselImages">
                 <img src="imagem1.jpg" alt="Imagem 1">
                 <img src="imagem2.jpg" alt="Imagem 2">
@@ -249,6 +240,7 @@
                 <img src="imagem7.jpg" alt="Imagem 7">
                 <img src="imagem8.jpg" alt="Imagem 8">
             </div>
+            <button class="carousel-button right" onclick="moveCarousel(1)">❯</button>
         </div>
     </div>
 
@@ -262,9 +254,9 @@
     <script>
         let correctAnswers = 0;
         let currentQuestionIndex = 0;
-        let questions = document.querySelectorAll(".question");
-        let totalQuestions = questions.length;
+        let totalQuestions = 6; // Número total de perguntas
 
+        // Lógica do Quiz
         function fadeIn(element) {
             element.style.display = "block";
             setTimeout(() => element.classList.add("show"), 50);
@@ -286,7 +278,7 @@
         document.getElementById("playButton").addEventListener("click", function() {
             fadeOut(document.getElementById("startScreen"));
             fadeIn(document.getElementById("quiz"));
-            document.getElementById("backgroundMusic").play();  // Corrigido para tocar a música
+            document.getElementById("backgroundMusic").play();
         });
 
         function checkAnswer(button, isCorrect) {
@@ -304,11 +296,11 @@
         }
 
         function nextQuestion() {
-            questions[currentQuestionIndex].classList.remove("active");
+            document.querySelectorAll(".question")[currentQuestionIndex].classList.remove("active");
             currentQuestionIndex++;
 
             if (currentQuestionIndex < totalQuestions) {
-                questions[currentQuestionIndex].classList.add("active");
+                document.querySelectorAll(".question")[currentQuestionIndex].classList.add("active");
             } else {
                 showResult();
             }
@@ -327,6 +319,24 @@
             fadeIn(document.getElementById("result"));
         }
 
+        // Carrossel
+        let currentImageIndex = 0;
+
+        function moveCarousel(direction) {
+            const images = document.querySelectorAll("#carouselImages img");
+            currentImageIndex += direction;
+
+            if (currentImageIndex < 0) {
+                currentImageIndex = images.length - 1;
+            } else if (currentImageIndex >= images.length) {
+                currentImageIndex = 0;
+            }
+
+            const offset = -currentImageIndex * 500; // Ajuste para cada imagem ser maior
+            document.getElementById("carouselImages").style.transform = `translateX(${offset}px)`;
+        }
+
+        // Música de fundo
         document.getElementById("musicButton").addEventListener("click", function() {
             let music = document.getElementById("backgroundMusic");
             let volumeControl = document.getElementById("volumeControl");
