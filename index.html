@@ -130,6 +130,12 @@
             border-radius: 10px;
             display: block;
             margin: 0 auto;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .carousel img.active {
+            opacity: 1;
         }
 
         .carousel-button {
@@ -210,7 +216,7 @@
 
     <main id="quiz" class="fade" style="display: none;">
         <div class="container">
-            <p>Prepare-se para ver se você realmente ama o Vin de verdade!</p>
+            <p>Prepare-se para testar seus conhecimentos sobre o amor! Responda as perguntas abaixo.</p>
 
             <div class="question active">
                 <h2>Qual foi a primeira coisa que assistimos juntos?</h2>
@@ -264,18 +270,18 @@
     <div id="result" class="fade"></div>
 
     <div id="carousel" class="fade" style="display: none;">
-        
+        <h2>Meus parabens aqui está a sua recompensa</h2>
         <div class="carousel">
             <button class="carousel-button left" onclick="moveCarousel(-1)">❮</button>
             <div class="carousel-images" id="carouselImages">
-                <img src="imagem1.jpg" alt="Imagem 1">
-                <img src="imagem2.jpg" alt="Imagem 2">
-                <img src="imagem3.jpg" alt="Imagem 3">
-                <img src="imagem4.jpg" alt="Imagem 4">
-                <img src="imagem5.jpg" alt="Imagem 5">
-                <img src="imagem6.jpg" alt="Imagem 6">
-                <img src="imagem7.jpg" alt="Imagem 7">
-                <img src="imagem8.jpg" alt="Imagem 8">
+                <img src="imagem1.jpg" alt="Imagem 1" class="carousel-image active">
+                <img src="imagem2.jpg" alt="Imagem 2" class="carousel-image">
+                <img src="imagem3.jpg" alt="Imagem 3" class="carousel-image">
+                <img src="imagem4.jpg" alt="Imagem 4" class="carousel-image">
+                <img src="imagem5.jpg" alt="Imagem 5" class="carousel-image">
+                <img src="imagem6.jpg" alt="Imagem 6" class="carousel-image">
+                <img src="imagem7.jpg" alt="Imagem 7" class="carousel-image">
+                <img src="imagem8.jpg" alt="Imagem 8" class="carousel-image">
             </div>
             <button class="carousel-button right" onclick="moveCarousel(1)">❯</button>
         </div>
@@ -360,7 +366,9 @@
         let currentImageIndex = 0;
 
         function moveCarousel(direction) {
-            const images = document.querySelectorAll("#carouselImages img");
+            const images = document.querySelectorAll(".carousel-image");
+            images[currentImageIndex].classList.remove("active");
+
             currentImageIndex += direction;
 
             if (currentImageIndex < 0) {
@@ -369,6 +377,7 @@
                 currentImageIndex = 0;
             }
 
+            images[currentImageIndex].classList.add("active");
         }
 
         // Música de fundo
