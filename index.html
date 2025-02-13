@@ -107,6 +107,26 @@
             margin: 10px;
         }
 
+        /* Estilos para o carrossel */
+        .carousel {
+            display: flex;
+            overflow: hidden;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .carousel-images {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel img {
+            width: 200px;
+            height: auto;
+            margin: 0 10px;
+            border-radius: 10px;
+        }
+
         /* Estilos para os checkmarks antes do quiz */
         #checkYes, #checkNo, #checkYes2, #checkNo2 {
             padding: 15px;
@@ -216,6 +236,22 @@
 
     <div id="result" class="fade"></div>
 
+    <div id="carousel" class="fade" style="display: none;">
+        <h2>Meus parabens aqui está a sua recompensa</h2>
+        <div class="carousel">
+            <div class="carousel-images" id="carouselImages">
+                <img src="imagem1.jpg" alt="Imagem 1">
+                <img src="imagem2.jpg" alt="Imagem 2">
+                <img src="imagem3.jpg" alt="Imagem 3">
+                <img src="imagem4.jpg" alt="Imagem 4">
+                <img src="imagem5.jpg" alt="Imagem 5">
+                <img src="imagem6.jpg" alt="Imagem 6">
+                <img src="imagem7.jpg" alt="Imagem 7">
+                <img src="imagem8.jpg" alt="Imagem 8">
+            </div>
+        </div>
+    </div>
+
     <button id="musicButton">🎶 Musiquinha fofa de fundo</button>
     <input type="range" id="volumeControl" min="0" max="1" step="0.1">
 
@@ -282,31 +318,34 @@
             fadeOut(document.getElementById("quiz"));
             let resultText = "";
             if (correctAnswers === totalQuestions) {
-                resultText = "Você realmente me ama 😍";
-            } else if (correctAnswers >= 4) {
-                resultText = "Você me ama só um pouquinho 😢";
+                resultText = "Parabéns! Você acertou todas as perguntas!";
+                fadeIn(document.getElementById("carousel"));
             } else {
-                resultText = "Você não me ama? 💔";
+                resultText = `Você acertou ${correctAnswers} de ${totalQuestions} perguntas.`;
             }
-            let resultDiv = document.getElementById("result");
-            resultDiv.innerText = resultText;
-            fadeIn(resultDiv);
+            document.getElementById("result").textContent = resultText;
+            fadeIn(document.getElementById("result"));
         }
 
-        let music = document.getElementById("backgroundMusic");
-        let musicButton = document.getElementById("musicButton");
-        let volumeControl = document.getElementById("volumeControl");
+        document.getElementById("musicButton").addEventListener("click", function() {
+            let music = document.getElementById("backgroundMusic");
+            let volumeControl = document.getElementById("volumeControl");
 
-        musicButton.addEventListener("click", function() {
-            music.play();
-            volumeControl.style.display = "block";
+            if (music.paused) {
+                music.play();
+                this.textContent = "🎶 Pausar música";
+            } else {
+                music.pause();
+                this.textContent = "🎶 Musiquinha fofa de fundo";
+            }
+
+            volumeControl.style.display = (music.paused) ? "none" : "block";
         });
 
-        volumeControl.addEventListener("input", function() {
-            music.volume = volumeControl.value;
+        document.getElementById("volumeControl").addEventListener("input", function() {
+            document.getElementById("backgroundMusic").volume = this.value;
         });
     </script>
-    
 
 </body>
 </html>
