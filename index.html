@@ -128,6 +128,8 @@
             width: 500px; /* Ajuste para aumentar o tamanho da imagem */
             height: auto;
             border-radius: 10px;
+            display: block;
+            margin: 0 auto;
         }
 
         .carousel-button {
@@ -149,6 +151,21 @@
         .carousel-button.right {
             right: 0;
         }
+
+        /* Estilo para os botões do quiz (checkmarks) */
+        .option:hover {
+            background: #f0f0f0;
+        }
+
+        .option:active {
+            transform: scale(0.98);
+        }
+
+        .correct, .wrong {
+            cursor: not-allowed;
+            transition: transform 0.3s ease;
+        }
+
     </style>
 </head>
 <body>
