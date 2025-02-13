@@ -95,6 +95,21 @@
         #musicButton:focus {
             outline: none;
         }
+        /* Estilo para o controle de volume */
+        #volumeControl {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            width: 150px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 5px;
+        }
+        #volumeLabel {
+            color: white;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
@@ -162,6 +177,12 @@
     <!-- Botão para iniciar a música -->
     <button id="musicButton" onclick="toggleMusic()">Musiquinha Fofa de Fundo</button>
 
+    <!-- Controle de volume -->
+    <div id="volumeControl">
+        <label id="volumeLabel" for="volumeSlider">Volume</label>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
+    </div>
+
     <script>
         let currentQuestion = 1;
         let score = 0;
@@ -177,6 +198,12 @@
                 music.pause();
                 musicPlaying = false;
             }
+        }
+
+        // Função para ajustar o volume
+        function setVolume(volume) {
+            const music = document.getElementById('backgroundMusic');
+            music.volume = volume;
         }
 
         function checkAnswer(button, isCorrect) {
